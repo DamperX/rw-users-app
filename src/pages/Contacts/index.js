@@ -31,11 +31,11 @@ const Contacts = () => {
       </Box>
       {(() => {
         if (contacts.loading) {
-          return <div>...loading</div>
+          return <div data-testid="contacts-loader">...loading</div>
         }
 
         if (contacts.error) {
-          return <div>...something went wrong</div>
+          return <div data-testid="contacts-data-error">...something went wrong</div>
         }
 
         if (viewMode === DATA_VIEW_MOD.TABLE) {

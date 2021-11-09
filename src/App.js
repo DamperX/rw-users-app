@@ -1,15 +1,9 @@
 import CssBaseline from '@mui/material/CssBaseline'
 import Contacts from "./pages/Contacts";
 import {createTheme} from "@mui/material";
-import {ThemeProvider} from "@mui/styles";
+import {ThemeProvider} from "@mui/material";
 
-const theme = createTheme({
-  components: {
-    MuiContainer: {
-
-    }
-  }
-})
+export const theme = createTheme()
 
 const App = () => (
     <ThemeProvider theme={theme}>

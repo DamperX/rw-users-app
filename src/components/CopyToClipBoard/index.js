@@ -3,20 +3,20 @@ import Box from '@mui/material/Box'
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {useCallback, useState} from "react";
 import Tooltip from "@mui/material/Tooltip";
-import {makeStyles} from "@mui/styles";
 import {useCopyToClipboard} from "react-use";
 import {ClickAwayListener} from "@mui/material";
+import {makeStyles} from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    cursor: 'pointer'
-  },
-  icon: {
-    marginRight: theme.spacing(1)
-  },
-  text: {
-    whiteSpace: 'nowrap'
-  }
+    root: {
+      cursor: 'pointer'
+    },
+    icon: {
+      marginRight: theme.spacing(1)
+    },
+    text: {
+      whiteSpace: 'nowrap'
+    }
 }))
 
 const STATUS_ENUM = {

@@ -14,7 +14,7 @@ import {NATIONS} from "../../consts/nations";
 
 const ContactsTable = ({data}) => {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} data-testid="contacts-table-container">
       <Table>
         <TableHead>
           <TableRow>
