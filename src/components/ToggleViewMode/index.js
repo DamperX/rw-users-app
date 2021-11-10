@@ -13,10 +13,10 @@ const ToggleViewMode = ({view, onHandleChange}) => {
       onChange={onHandleChange}
       size="small"
     >
-      <ToggleButton value={DATA_VIEW_MOD.GRID}>
+      <ToggleButton value={DATA_VIEW_MOD.GRID} data-testid="toggle-data-viewmode-grid">
         <GridViewIcon />
       </ToggleButton>
-      <ToggleButton value={DATA_VIEW_MOD.TABLE}>
+      <ToggleButton value={DATA_VIEW_MOD.TABLE} data-testid="toggle-data-viewmode-table">
         <FormatListBulletedIcon />
       </ToggleButton>
     </ToggleButtonGroup>

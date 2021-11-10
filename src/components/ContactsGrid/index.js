@@ -10,7 +10,7 @@ import Chip from "@mui/material/Chip";
 
 const ContactsGrid = ({data}) => {
   return (
-    <Grid container spacing={4}>
+    <Grid container spacing={4} data-testid="contacts-grid-container">
       {data.map((contact) => (
         <Grid key={contact.login.uuid} item xs={6}>
           <List component={Paper}>

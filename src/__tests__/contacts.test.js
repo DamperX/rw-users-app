@@ -5,20 +5,21 @@ import Contacts from "../pages/Contacts";
 import {theme} from "../App";
 import {ThemeProvider} from "@mui/material";
 import {server} from "../serverTests";
+import userEvent from '@testing-library/user-event'
 
 beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
-describe('contacts get data', () => {
-  const ComponentsWithTheme = () => {
-    return (
-      <ThemeProvider theme={theme}>
-        <Contacts/>
-      </ThemeProvider>
-    )
-  }
+const ComponentsWithTheme = () => {
+  return (
+    <ThemeProvider theme={theme}>
+      <Contacts/>
+    </ThemeProvider>
+  )
+}
 
+describe('contacts get data', () => {
   test('loading', async () => {
     render(<ComponentsWithTheme/>)
 
@@ -53,6 +54,76 @@ describe('contacts get data', () => {
     render(<ComponentsWithTheme/>)
     const error = await screen.findByText('...something went wrong')
     expect(error).toBeInTheDocument()
+  })
+})
+
+describe('contacts data view mode', () => {
+  test('should equal table', async () => {
+    render(<ComponentsWithTheme/>)
+
+    const loader = screen.getByTestId('contacts-loader')
+
+    await waitForElementToBeRemoved(loader)
+
+    expect(screen.getByTestId('contacts-table-container')).toBeInTheDocument()
+    expect(screen.getByTestId('toggle-data-viewmode-table')).toHaveStyle({
+      color: 'rgba(0, 0, 0, 0.87)',
+      'background-color': 'rgba(0, 0, 0, 0.08)'
+    })
+
+    expect(screen.queryByTestId('contacts-grid-container')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('toggle-data-viewmode-grid')).not.toHaveStyle({
+      color: 'rgba(0, 0, 0, 0.87)',
+      'background-color': 'rgba(0, 0, 0, 0.08)'
+    })
+  })
+
+  test('switch from grid to table', async () => {
+    render(<ComponentsWithTheme/>)
+
+    const loader = screen.getByTestId('contacts-loader')
+
+    await waitForElementToBeRemoved(loader)
+
+    const gridToggle = screen.queryByTestId('toggle-data-viewmode-grid')
+    const tableToggle = screen.queryByTestId('toggle-data-viewmode-table')
+    userEvent.click(gridToggle)
+    userEvent.click(tableToggle)
+
+    expect(screen.getByTestId('contacts-table-container')).toBeInTheDocument()
+    expect(tableToggle).toHaveStyle({
+      color: 'rgba(0, 0, 0, 0.87)',
+      'background-color': 'rgba(0, 0, 0, 0.08)'
+    })
+
+    expect(screen.queryByTestId('contacts-grid-container')).not.toBeInTheDocument()
+    expect(gridToggle).not.toHaveStyle({
+      color: 'rgba(0, 0, 0, 0.87)',
+      'background-color': 'rgba(0, 0, 0, 0.08)'
+    })
+  })
+
+  test('should equal grid', async () => {
+    render(<ComponentsWithTheme/>)
+
+    const loader = screen.getByTestId('contacts-loader')
+
+    await waitForElementToBeRemoved(loader)
+
+    const gridToggle = screen.queryByTestId('toggle-data-viewmode-grid')
+    userEvent.click(gridToggle)
+
+    expect(screen.getByTestId('contacts-grid-container')).toBeInTheDocument()
+    expect(gridToggle).toHaveStyle({
+      color: 'rgba(0, 0, 0, 0.87)',
+      'background-color': 'rgba(0, 0, 0, 0.08)'
+    })
+
+    expect(screen.queryByTestId('contacts-table-container')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('toggle-data-viewmode-table')).not.toHaveStyle({
+      color: 'rgba(0, 0, 0, 0.87)',
+      'background-color': 'rgba(0, 0, 0, 0.08)'
+    })
   })
 })
 
