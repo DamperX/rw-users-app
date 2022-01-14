@@ -18,7 +18,7 @@ const ComponentsWithTheme = () => {
     </ThemeProvider>
   )
 }
-
+// Tests for data fetching
 describe('contacts get data', () => {
   test('loading', async () => {
     render(<ComponentsWithTheme/>)
@@ -57,6 +57,7 @@ describe('contacts get data', () => {
   })
 })
 
+// Tests for view mode
 describe('contacts data view mode', () => {
   test('should equal table', async () => {
     render(<ComponentsWithTheme/>)
@@ -115,6 +116,29 @@ describe('contacts data view mode', () => {
 
     expect(screen.getByTestId('contacts-grid-container')).toBeInTheDocument()
     expect(gridToggle).toHaveStyle({
+      color: 'rgba(0, 0, 0, 0.87)',
+      'background-color': 'rgba(0, 0, 0, 0.08)'
+    })
+
+    expect(screen.queryByTestId('contacts-table-container')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('toggle-data-viewmode-table')).not.toHaveStyle({
+      color: 'rgba(0, 0, 0, 0.87)',
+      'background-color': 'rgba(0, 0, 0, 0.08)'
+    })
+
+    expect(localStorage.getItem('view')).toEqual('grid')
+  })
+
+  test('should equal grid with reload page', async () => {
+    localStorage.setItem('view', 'grid')
+    render(<ComponentsWithTheme/>)
+
+    const loader = screen.getByTestId('contacts-loader')
+
+    await waitForElementToBeRemoved(loader)
+
+    expect(screen.getByTestId('contacts-grid-container')).toBeInTheDocument()
+    expect(screen.queryByTestId('toggle-data-viewmode-grid')).toHaveStyle({
       color: 'rgba(0, 0, 0, 0.87)',
       'background-color': 'rgba(0, 0, 0, 0.08)'
     })
